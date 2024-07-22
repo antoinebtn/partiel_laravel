@@ -48,15 +48,28 @@ class BookController extends Controller
     public function edit(int $id)
     {
         $book = Book::find($id);
-        return view('books.edit', compact('book'));
+        return view('books.edit', ['book' => $book]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Book $book)
+    public function update(Request $request, int $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'author' => 'required',
+            'year' => 'required|numeric',
+        ]);
+
+        $book = Book::find($id);
+        $book->name = $request->name;
+        $book->author = $request->author;
+        $book->year = $request->year;
+        $book->genre = $request->genre;
+        $book->save();
+
+        return redirect('/books');
     }
 
     /**
