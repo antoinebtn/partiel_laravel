@@ -45,9 +45,10 @@ class BookController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Book $book)
+    public function edit(int $id)
     {
-        //
+        $book = Book::find($id);
+        return view('books.edit', compact('book'));
     }
 
     /**
@@ -61,11 +62,11 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Book $id)
+    public function destroy(int $id)
     {
-        $book = Book::findOrfail($id);
+        $book = Book::find($id);
 
-        $book->each->delete();
+        $book->delete();
 
         return redirect('/books')->with('success', 'Book deleted!');
     }
